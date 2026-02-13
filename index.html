@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Audio Comparison Evaluation</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 40px 20px;
+      line-height: 1.6;
+      color: #333;
+      background: #fafafa;
+    }
+
+    h1 {
+      font-size: 2.5rem;
+      font-weight: 700;
+      margin-bottom: 10px;
+      color: #1a1a1a;
+    }
+
+    h2 {
+      font-size: 1.8rem;
+      font-weight: 600;
+      margin: 50px 0 25px;
+      color: #2c2c2c;
+      padding-bottom: 10px;
+      border-bottom: 3px solid #4a90e2;
+    }
+
+    h3 {
+      font-size: 1.4rem;
+      font-weight: 600;
+      margin: 40px 0 20px;
+      color: #333;
+    }
+
+    .header-section {
+      background: white;
+      padding: 40px;
+      border-radius: 12px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+      margin-bottom: 40px;
+    }
+
+    .section-container {
+      background: white;
+      padding: 30px;
+      border-radius: 12px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+      margin-bottom: 30px;
+    }
+
+    .audio-grid {
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+      margin-top: 20px;
+    }
+
+    .pitch-row {
+      display: grid;
+      grid-template-columns: 1.2fr 0.8fr 1fr 1fr 1fr;
+      gap: 12px;
+      align-items: center;
+    }
+
+    .vc-seen-row {
+      display: grid;
+      grid-template-columns: repeat(6, 1fr);
+      gap: 12px;
+      align-items: center;
+    }
+
+    .vc-unseen-row {
+      display: grid;
+      grid-template-columns: repeat(7, 1fr);
+      gap: 12px;
+      align-items: center;
+    }
+
+    .audio-cell {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      border: 1px solid #e0e0e0;
+      padding: 15px 10px;
+      border-radius: 8px;
+      background: #fafafa;
+      transition: all 0.2s ease;
+      min-height: 100px;
+    }
+
+    .audio-cell:hover {
+      background: #f0f0f0;
+      border-color: #4a90e2;
+    }
+
+    .audio-cell.header {
+      background: #4a90e2;
+      color: white;
+      font-weight: 600;
+      border-color: #4a90e2;
+      font-size: 0.9rem;
+      text-align: center;
+    }
+
+    .audio-cell.header:hover {
+      background: #357abd;
+    }
+
+    .audio-cell audio {
+      width: 100%;
+      max-width: 250px;
+    }
+
+    .pitch-value {
+      font-size: 1.1rem;
+      font-weight: 600;
+      color: #4a90e2;
+    }
+
+    .video-container {
+      margin: 40px 0;
+      background: white;
+      padding: 30px;
+      border-radius: 12px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+    }
+
+    .video-wrapper {
+      padding: 56.25% 0 0 0;
+      position: relative;
+      border-radius: 8px;
+      overflow: hidden;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    }
+
+    .video-wrapper iframe {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+    }
+
+    .note {
+      background: #fff9e6;
+      border-left: 4px solid #ffc107;
+      padding: 15px 20px;
+      margin: 20px 0;
+      border-radius: 4px;
+      font-size: 0.95rem;
+    }
+
+    @media (max-width: 1200px) {
+      .pitch-row,
+      .vc-seen-row,
+      .vc-unseen-row {
+        grid-template-columns: 1fr;
+      }
+
+      .audio-cell {
+        min-height: auto;
+      }
+
+      h1 {
+        font-size: 2rem;
+      }
+
+      h2 {
+        font-size: 1.5rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="header-section">
+    <h1>Audio Comparison Evaluation</h1>
+  </div>
+
+  <!-- PITCH SHIFTING SECTION -->
+  <div class="section-container">
+    <h2>1. Pitch Shifting Comparison</h2>
+    <p>Comparison of different pitch shifting algorithms across various pitch shift values.</p>
+
+    <div class="audio-grid">
+      <!-- Header Row -->
+      <div class="pitch-row">
+        <div class="audio-cell header">Input</div>
+        <div class="audio-cell header">Shift (Semitones)</div>
+        <div class="audio-cell header">Praat</div>
+        <div class="audio-cell header">Rubberband</div>
+        <div class="audio-cell header">VC-SD</div>
+      </div>
+
+      <!-- Example Row 1 -->
+      <div class="pitch-row">
+        <div class="audio-cell">
+          <audio controls>
+            <source src="audio/pitch-eval/original/3575_170457_000012_000002.wav" type="audio/wav">
+          </audio>
+        </div>
+        <div class="audio-cell">
+          <span class="pitch-value">+3</span>
+        </div>
+        <div class="audio-cell">
+          <audio controls>
+            <source src="audio/pitch-eval/praat/praat_3575_170457_000012_000002_+3st.wav" type="audio/wav">
+          </audio>
+        </div>
+        <div class="audio-cell">
+          <audio controls>
+            <source src="audio/pitch-eval/rubber/rub_3575_170457_000012_000002_+3st.wav" type="audio/wav">
+          </audio>
+        </div>
+        <div class="audio-cell">
+          <audio controls>
+            <source src="audio/pitch-eval/vcsd/nn_3575_170457_000012_000002_+3st.wav" type="audio/wav">
+          </audio>
+        </div>
+      </div>
+
+      <!-- Example Row 2 -->
+      <div class="pitch-row">
+        <div class="audio-cell">
+          <audio controls>
+            <source src="audio/pitch-eval/original/237_126133_000002_000000.wav" type="audio/wav">
+          </audio>
+        </div>
+        <div class="audio-cell">
+          <span class="pitch-value">-7</span>
+        </div>
+        <div class="audio-cell">
+          <audio controls>
+            <source src="audio/pitch-eval/praat/praat_237_126133_000002_000000_-7st.wav" type="audio/wav">
+          </audio>
+        </div>
+        <div class="audio-cell">
+          <audio controls>
+            <source src="audio/pitch-eval/rubber/rub_237_126133_000002_000000_-7st.wav" type="audio/wav">
+          </audio>
+        </div>
+        <div class="audio-cell">
+          <audio controls>
+            <source src="audio/pitch-eval/vcsd/nn_237_126133_000002_000000_-7st.wav" type="audio/wav">
+          </audio>
+        </div>
+      </div>
+
+      <!-- Add more rows as needed by copying the structure above -->
+    </div>
+  </div>
+
+  <!-- VOICE CONVERSION - SEEN TARGETS SECTION -->
+  <div class="section-container">
+    <h2>2. Voice Conversion - Seen Targets</h2>
+    <p>Comparison of voice conversion models on seen target speakers.</p>
+
+    <div class="audio-grid">
+      <!-- Header Row -->
+      <div class="vc-seen-row">
+        <div class="audio-cell header">Input</div>
+        <div class="audio-cell header">Target</div>
+        <div class="audio-cell header">Diff-VC-VCTK</div>
+        <div class="audio-cell header">Quick-VC</div>
+        <div class="audio-cell header">Triaan-VC</div>
+        <div class="audio-cell header">VC-SD</div>
+      </div>
+
+      <!-- Example Row 1 -->
+      <div class="vc-seen-row">
+        <div class="audio-cell">
+          <audio controls>
+            <source src="audio/vc/inputs/source/1.wav" type="audio/wav">
+          </audio>
+        </div>
+        <div class="audio-cell">
+          <audio controls>
+            <source src="audio/vc/inputs/targets/target_p334.wav" type="audio/wav">
+          </audio>
+        </div>
+        <div class="audio-cell">
+          <audio controls>
+            <source src="audio/seen/diff-vc-vctk/diffvc_vctk_1_to_p334.wav" type="audio/wav">
+          </audio>
+        </div>
+        <div class="audio-cell">
+          <audio controls>
+            <source src="audio/seen/quick-vc/quickvc_1_to_p334.wav" type="audio/wav">
+          </audio>
+        </div>
+        <div class="audio-cell">
+          <audio controls>
+            <source src="audio/seen/triaan-vc/tri_1_to_p334.wav" type="audio/wav">
+          </audio>
+        </div>
+        <div class="audio-cell">
+          <audio controls>
+            <source src="audio/seen/vc-sd/vcsd_1_to_p334.wav" type="audio/wav">
+          </audio>
+        </div>
+      </div>
+
+      <!-- Add more rows as needed -->
+    </div>
+  </div>
+
+  <!-- VOICE CONVERSION - UNSEEN TARGETS SECTION -->
+  <div class="section-container">
+    <h2>3. Voice Conversion - Unseen Targets</h2>
+    <p>Comparison of voice conversion models on unseen target speakers.</p>
+
+    <div class="audio-grid">
+      <!-- Header Row -->
+      <div class="vc-unseen-row">
+        <div class="audio-cell header">Input</div>
+        <div class="audio-cell header">Target</div>
+        <div class="audio-cell header">Diff-VC-Libri</div>
+        <div class="audio-cell header">DDDM-VC</div>
+        <div class="audio-cell header">FACodec</div>
+        <div class="audio-cell header">Stream-VC</div>
+        <div class="audio-cell header">VC-SD</div>
+      </div>
+
+      <!-- Example Row 1 -->
+      <div class="vc-unseen-row">
+        <div class="audio-cell">
+          <audio controls>
+            <source src="audio/vc/inputs/source/1.wav" type="audio/wav">
+          </audio>
+        </div>
+        <div class="audio-cell">
+          <audio controls>
+            <source src="audio/vc/inputs/targets/p334.wav" type="audio/wav">
+          </audio>
+        </div>
+        <div class="audio-cell">
+          <audio controls>
+            <source src="audio/unseen/diff-vc-libri/diffvc_libri_1_to_p334.wav" type="audio/wav">
+          </audio>
+        </div>
+        <div class="audio-cell">
+          <audio controls>
+            <source src="audio/unseen/dddm-vc/dddmvc_1_to_p334.wav" type="audio/wav">
+          </audio>
+        </div>
+        <div class="audio-cell">
+          <audio controls>
+            <source src="audio/unseen/facodec/facodec_1_to_p334.wav" type="audio/wav">
+          </audio>
+        </div>
+        <div class="audio-cell">
+          <audio controls>
+            <source src="audio/unseen/stream-vc/streamvc_1_to_p334.wav" type="audio/wav">
+          </audio>
+        </div>
+        <div class="audio-cell">
+          <audio controls>
+            <source src="audio/unseen/vc-sd/vcsd_unseen_1_to_p334.wav" type="audio/wav">
+          </audio>
+        </div>
+      </div>
+
+      <!-- Add more rows as needed -->
+    </div>
+  </div>
+
+  <!-- VIDEO DEMONSTRATION -->
+  <div class="video-container">
+    <h3>Video Demonstration</h3>
+    <p>The following video demonstrates the audio processing techniques in action.</p>
+    
+    <div class="video-wrapper" style="margin-top: 20px;">
+      <iframe 
+        src="https://player.vimeo.com/video/1145741519?badge=0&autopause=0&player_id=0&app_id=58479" 
+        frameborder="0" 
+        allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media; web-share" 
+        referrerpolicy="strict-origin-when-cross-origin"
+        title="Audio Comparison Demo">
+      </iframe>
+    </div>
+  </div>
+
+  <script src="https://player.vimeo.com/api/player.js"></script>
+
+</body>
+</html>
